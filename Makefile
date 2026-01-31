@@ -2,6 +2,7 @@ SRCS=srcs/main.c srcs/parsing.c
 OBJS=$(SRCS:.c=.o)
 NAME=ft_nmap
 FLAGS=-Wall -Wextra -Werror -g
+LIBS=-lpthread -lpcap
 
 all: $(NAME)
 

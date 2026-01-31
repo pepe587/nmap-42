@@ -1,7 +1,5 @@
-#include <stdio.h>
-#include <unistd.h>
-#include <string.h>
-#include <stdlib.h>
+#pragma once
+#include "ft_nmap.h"
 
 enum args
 {
@@ -13,5 +11,5 @@ enum args
 };
 
 
-char      **parse_arguments(int argc, char **argv);
+char      **parse_arguments(char **argv);
 int         arevalidsargs(char **args);
