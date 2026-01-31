@@ -12,10 +12,6 @@ enum args
     SCAN_TYPE
 };
 
-typedef struct s_args
-{
-    char    **parsed_args;
-}               t_args;
 
-t_args      *parse_arguments(int argc, char **argv);
-int         arevalidsargs(t_args *args);
+char      **parse_arguments(int argc, char **argv);
+int         arevalidsargs(char **args);
