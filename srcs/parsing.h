@@ -15,11 +15,19 @@ typedef struct s_args
     bool help;
     int *ports;
     char *ip;
-    char *ip;
+    char *file;
     int speedup;
     int scan_type;
 }               t_args;
 
+typedef struct s_range
+{
+    int start;
+    int end;
+}               t_range;
 
-char      **parse_arguments(char **argv);
+
+
+char      **clear_args(char **argv);
 bool         arevalidsargs(char **args, bool ip_or_file);
+t_args        *parse(char **clean_args);

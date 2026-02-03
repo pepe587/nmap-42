@@ -1,5 +1,8 @@
 #include "parsing.h"
 
+
+/* VALIDATION */
+
 bool validate_ip(char *ip)
 {
     struct sockaddr_in sa;
@@ -157,7 +160,7 @@ bool arevalidsargs(char **args, bool ip_or_file) //ip_or_file if = 1 ip provided
     return 1;
 }
 
-char   **parse_arguments(char **argv)
+char   **clear_args(char **argv)
 {
     bool ip_or_file = 0;
     char **parsed_args = (char **)malloc(sizeof(char *) * 6);
@@ -201,4 +204,82 @@ char   **parse_arguments(char **argv)
     if (arevalidsargs(parsed_args, ip_or_file) == 0)
         return NULL;
     return parsed_args;
+}
+
+/* END OF VALIDATION */
+
+/* REAL PARSING */
+
+/*
+
+typedef struct s_args
+{
+    bool help;
+    int *ports;
+    char *ip;
+    char *file;
+    int speedup;
+    int scan_type;
+}               t_args;
+
+
+*/
+
+
+t_range StringtoRange(char *str)
+{
+    t_range ret;
+    memset(&ret, 0, sizeof(t_range));
+    int i = 0;
+    while (str[i] && str[i] != '-')
+        ret.start = ret.start * 10 + (str[i++] - '0');
+    if (str[i] == '-')
+        ++i;
+    while (str[i])
+        ret.end = ret.end * 10 + (str[i++] - '0');
+    return ret;
+}
+
+
+int *RangetoArray(char *range)
+{
+    t_range s_range = StringtoRange(range);
+
+    int *ret = (int *)malloc(sizeof(int) * (s_range.end - s_range.start + 1));
+    memset(ret, 0, sizeof(int) * (s_range.end - s_range.start + 1));
+    for (int y = s_range.start; y <= s_range.end; y++)
+        ret[y - s_range.start] = y;
+    return ret;
+}
+
+
+int *parse_ports(char *ports)
+{
+    if (!ports)
+        return RangetoArray("1-1024");
+
+    return RangetoArray(ports);
+}
+
+
+//falta parsear archivo y tipo de scan
+t_args        *parse(char **clean_args)
+{
+    t_args *ret = (t_args *)malloc(sizeof(t_args));
+    memset(ret, 0, sizeof(t_args));
+
+    if (clean_args[IP])
+        ret->ip = clean_args[IP];
+    else
+        ret->ip = NULL;
+
+    if (clean_args[PORTS])
+        ret->ports = parse_ports(clean_args[PORTS]);
+    
+    if (clean_args[SPEEDUP])
+        ret->speedup = atoi(clean_args[SPEEDUP]);
+    else
+        ret->speedup = 1;
+    
+    return ret;
 }
