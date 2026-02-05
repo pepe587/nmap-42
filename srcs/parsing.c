@@ -252,12 +252,50 @@ int *RangetoArray(char *range)
     return ret;
 }
 
+int *commastoArray(char *ports)
+{
+    int i = 0;
+    int *ret = (int *)malloc(sizeof(int));
+    memset(ret, 0, sizeof(int));
+    ret[0] = 0;
+    while (ports[i])
+    {
+        if (ports[i] == ',')
+        {
+            ret = (int *)realloc(ret, sizeof(int) * (i + 2));
+            memset(&ret[i + 1], 0, sizeof(int));
+            ret[i + 1] = 0;
+            ++i;
+        }
+        else
+        {
+            ret[i] = ret[i] * 10 + (ports[i] - '0');
+            ++i;
+        }
+    }
+    return ret;
+}
+
+
+bool getFormat(char *ports)
+{
+    int i = 0;
+    while (ports[i])
+    {
+        if (ports[i] == '-')
+            return 1;
+        ++i;
+    }
+    return 0;
+}
+
 
 int *parse_ports(char *ports)
 {
     if (!ports)
         return RangetoArray("1-1024");
-
+    if (!getFormat(ports))
+        return commastoArray(ports);
     return RangetoArray(ports);
 }
 
@@ -283,3 +321,5 @@ t_args        *parse(char **clean_args)
     
     return ret;
 }
+
+/* END OF REAL PARSING */
