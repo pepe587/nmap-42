@@ -10,7 +10,7 @@ int main(int argc, char **argv)
         return 1;
 
     if (valided_args[HELP])
-        return printf("Help requested\n"), 0; //print_help();
+        return print_help(), 0;
 
     t_args *args = parse(valided_args);
 

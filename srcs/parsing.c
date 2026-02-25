@@ -3,6 +3,21 @@
 
 /* VALIDATION */
 
+void print_help(void)
+{
+	printf("Usage: ./ft_nmap [options]\n");
+	printf("\nOptions:\n");
+	printf("  --help, -h\t\tShow this help and exit\n");
+	printf("  --ip <address>\tTarget IP address to scan\n");
+	printf("  --file <path>\tRead targets from file (one per line)\n");
+	printf("  --ports <list>\tPorts to scan. Examples:\n");
+	printf("\t\t\t22,80,443\tcomma-separated list\n");
+	printf("\t\t\t1-1024\t\tport range\n");
+	printf("  --speedup <n>\tNumber of threads (1-250)\n");
+	printf("  --scan-type <types>  Scan types, comma-separated. Supported:\n");
+	printf("\t\t\tSYN,NULL,FIN,XMAS,ACK,UDP\n");
+}
+
 bool validate_ip(char *ip)
 {
     struct sockaddr_in sa;
