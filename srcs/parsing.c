@@ -180,6 +180,7 @@ char   **clear_args(char **argv)
     bool ip_or_file = 0;
     char **parsed_args = (char **)malloc(sizeof(char *) * 6);
     memset(parsed_args, 0, sizeof(char *) * 6);
+    // Mirar leaks de memoria en caso de flags repetidos
     for (int y = 1; argv[y]; y++)
     {
         if (!strcmp(argv[y], "--help") || !strcmp(argv[y], "-h"))
